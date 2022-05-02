@@ -1,20 +1,42 @@
 #include <stdio.h>
 #include <stdlib.h>
-struct Node
+struct operation_type
 {
-    struct Node *next;
-    int data;
+    char optname [100];
+    float commission;
+    int optnum;
+    struct operation_type *nextopt;
+
+};
+struct transaction
+{
+    int optype;
+    float amount;
+    int tno;
+    struct transaction *nexttr;
+
+};
+struct customer
+{
+    char fname [100];
+    char lname [100];
+    float paid_commission;
+    int cno;
+    struct transaction *trans;
+    struct customer *nextc;
+
+};
+struct branch
+{
+    char bname [100];
+    int bno;
+    struct customer *custs;
+    struct branch *nextb;
 
 };
 
+
 int main(){
-    struct Node *head=(struct Node*) malloc (sizeof(struct Node));
-    for (int i = 0; i < 10; i++)
-    {
-        head->next=(struct Node*) malloc (sizeof(struct Node));
-        head->data=i;
-        printf("\n%d",head->data);
-        head=head->next;
-    }
+    struct operation_type *head=(struct Node*) malloc (sizeof(struct operation_type));
     
 }
