@@ -37,6 +37,27 @@ struct branch
 
 
 int main(){
-    struct operation_type *head=(struct Node*) malloc (sizeof(struct operation_type));
+    printf("1) Read operation types from the file \n");
+    printf("2) Read branches types from the file \n");
+    printf("3) Read customers types from the file \n");
+    printf("4) Read customer transactions from the file \n");
+    printf("5) calculate paid commission amount of each customers in each branches \n");
+    int menu_selector;
+    switch (menu_selector)
+    {
+    case 1:
+        /* code */
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    case 4:
+        break;
+    case 5:
+        break;
+    default:
+        break;
+    }
     
 }
