@@ -43,12 +43,14 @@ int main(){
     printf("4) Read customer transactions from the file \n");
     printf("5) calculate paid commission amount of each customers in each branches \n");
     int menu_selector;
+    scanf("%d",menu_selector);
     switch (menu_selector)
     {
     case 1:
-        /* code */
+        printf("1");
         break;
     case 2:
+        printf("2");
         break;
     case 3:
         break;
