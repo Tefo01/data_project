@@ -43,23 +43,12 @@ int main(){
     printf("4) Read customer transactions from the file \n");
     printf("5) calculate paid commission amount of each customers in each branches \n");
     int menu_selector;
-    scanf("%d",menu_selector);
-    switch (menu_selector)
-    {
-    case 1:
-        printf("1");
-        break;
-    case 2:
-        printf("2");
-        break;
-    case 3:
-        break;
-    case 4:
-        break;
-    case 5:
-        break;
-    default:
-        break;
+    scanf(" %d",menu_selector);
+    if(menu_selector==1){
+        printf("10");
+    }
+    else if(menu_selector==2){
+        printf("20");
     }
     
 }
