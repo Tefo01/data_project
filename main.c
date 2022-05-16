@@ -44,7 +44,7 @@ struct bank
 void printOperationTypes(struct operation_type *opt_head){
     while (opt_head->nextopt!=NULL)
         {
-            printf("%s %f\n",opt_head->optname,opt_head->commission);
+            printf("%d %s %f\n",opt_head->optnum,opt_head->optname,opt_head->commission);
             opt_head=opt_head->nextopt;
         }
 }
@@ -68,10 +68,10 @@ int main(){
         struct operation_type *opt=(struct operation_type*)malloc(sizeof(struct operation_type));
         struct operation_type *opt_head=opt;
         char k;
+        int count=1;
         //////////////////read operation types from file/////////////////
         while (!feof(file))
         {
-        int count=1;
         struct operation_type *temp=(struct operation_type*)malloc(sizeof(struct operation_type));
 
         fscanf(file, "%s %f", &opt->optname, &opt->commission);
