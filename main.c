@@ -71,15 +71,15 @@ void readoperationtypes(struct operation_type *opt_head,struct bank bank){
         //////////////////read operation types from file/////////////////
         while (!feof(file))
         {
-        struct operation_type *temp=(struct operation_type*)malloc(sizeof(struct operation_type));
+            struct operation_type *temp=(struct operation_type*)malloc(sizeof(struct operation_type));
 
-        fscanf(file, "%s %f", &opt->optname, &opt->commission);
-        //printf("%s %f\n",opt->optname,opt->commission);
-        opt->optnum=optnum;
-        optnum++;
+            fscanf(file, "%s %f", &opt->optname, &opt->commission);
+            //printf("%s %f\n",opt->optname,opt->commission);
+            opt->optnum=optnum;
+            optnum++;
 
-        opt->nextopt=temp;
-        opt=opt->nextopt;
+            opt->nextopt=temp;
+            opt=opt->nextopt;
         }
         
         bank.optypes=opt_head;
@@ -98,20 +98,14 @@ void readbranches(struct branch *branch_head,struct bank bank){
 
         while (!feof(file))
         {
-        struct branch *temp =create_branch();
-        int count=0;
-        do
-        {
-            k=fgetc(file);
-            branch->bname[count]=k;
-            count++;
-            if(k==' '||k==EOF)
-                break;
-        }while (1);
-        branch->bno=bno;
-        bno++;
-        branch->nextb=temp;
-        branch=branch->nextb;
+            struct branch *temp=(struct branch*)malloc(sizeof(struct branch));
+            fscanf(file, "%s", &branch->bname);
+            //printf("%s %f\n",opt->optname,opt->commission);
+            branch->bno=bno;
+            bno++;
+
+            branch->nextb=temp;
+            branch=branch->nextb;
         }
         bank.branches=branch_head;
         printBranches(bank.branches);
@@ -119,7 +113,36 @@ void readbranches(struct branch *branch_head,struct bank bank){
         
 }
 
+void readcustomers(struct customer *customer_head,struct branch *branch_head){
+        FILE* file;
+        file=fopen("./customers.txt","r");
+        struct customer *customer=(struct customer*)malloc(sizeof(struct customer));
+        customer_head=customer;
+        int cno=1;
 
+        while (!feof(file))
+        {
+            int bno;
+            struct customer *temp=(struct customer*)malloc(sizeof(struct customer));
+            fscanf(file, "%d %s %s",&bno ,&customer->fname,&customer->lname);
+            //printf("%s %f\n",opt->optname,opt->commission);
+            while (branch_head->bno!=bno)
+            {
+                branch_head=branch_head->nextb;
+            }
+            if(branch_head->nextb==NULL&&branch_head->bno!=bno){
+                printf("wrong input!!");
+                break;
+            }
+            branch_head->custs=customer;
+            
+
+            customer->nextc=temp;
+            customer=customer->nextc;
+        }
+        fclose(file);
+        
+}
 
 int main(){
     while(1){
@@ -148,8 +171,9 @@ int main(){
         struct bank bank;
         readbranches(branch_head,bank);
     }
-
-    break;
+    else if(menu_selector==3){
+       // readcustomers();
+    }
     
     }
 }
