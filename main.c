@@ -88,7 +88,7 @@ void readoperationtypes(struct operation_type *opt_head,struct bank bank){
 
 }
 
-void readbranches(struct branch *branch_head,struct bank bank){
+struct branch* readbranches(struct branch *branch_head){
         FILE* file;
         file=fopen("./branches.txt","r");
         struct branch *branch=(struct branch*)malloc(sizeof(struct branch));
@@ -99,6 +99,8 @@ void readbranches(struct branch *branch_head,struct bank bank){
         while (!feof(file))
         {
             struct branch *temp=(struct branch*)malloc(sizeof(struct branch));
+            temp->custs=NULL;
+            temp->nextb=NULL;
             fscanf(file, "%s", &branch->bname);
             //printf("%s %f\n",opt->optname,opt->commission);
             branch->bno=bno;
@@ -107,44 +109,61 @@ void readbranches(struct branch *branch_head,struct bank bank){
             branch->nextb=temp;
             branch=branch->nextb;
         }
-        bank.branches=branch_head;
-        printBranches(bank.branches);
-        fclose(file);
         
+        fclose(file);
+        return(branch_head);
 }
 
-void readcustomers(struct customer *customer_head,struct branch *branch_head){
+struct branch* readcustomers(struct branch *branch_head){
         FILE* file;
         file=fopen("./customers.txt","r");
         struct customer *customer=(struct customer*)malloc(sizeof(struct customer));
-        customer_head=customer;
-        int cno=1;
+        
 
         while (!feof(file))
         {
             int bno;
+            int cno=2;
             struct customer *temp=(struct customer*)malloc(sizeof(struct customer));
+            temp->nextc=NULL;
             fscanf(file, "%d %s %s",&bno ,&customer->fname,&customer->lname);
-            //printf("%s %f\n",opt->optname,opt->commission);
-            while (branch_head->bno!=bno)
+            customer->cno=1;
+
+            struct branch *branch=branch_head;//return to start of branch list
+
+            while (branch->nextb!=NULL&&branch->bno!=bno)
             {
-                branch_head=branch_head->nextb;
+                branch=branch->nextb;
             }
-            if(branch_head->nextb==NULL&&branch_head->bno!=bno){
-                printf("wrong input!!");
-                break;
+            //for first customer
+            if(branch->custs==NULL){
+                branch->custs=customer;
             }
-            branch_head->custs=customer;
+            else{
+                while (branch->custs->nextc!=NULL)
+                    {
+                    cno++;
+                    branch->custs=branch->custs->nextc;
+                }
+                customer->cno=cno;
+                branch->custs->nextc=customer;
+            }
+            
             
 
-            customer->nextc=temp;
-            customer=customer->nextc;
+            
         }
         fclose(file);
+        return(branch_head);
         
 }
 
 int main(){
+    struct operation_type *opt_head;
+    struct bank bank;
+    struct branch *branch_head;
+    struct customer *customer;
+    struct branch *branch;
     while(1){
     printf("1) Read operation types from the file \n");
     printf("2) Read branches types from the file \n");
@@ -153,27 +172,28 @@ int main(){
     printf("5) calculate paid commission amount of each customers in each branches \n");
 
     printf("\n option  :  ");
-    int menu_selector;
+    int menu_selector=2;
     
-    scanf("%d",&menu_selector);
+    //scanf("%d",&menu_selector);
     printf("\n");
 
     if (menu_selector==1)
     {
-        struct operation_type *opt_head;
-        struct bank bank;
+        
         readoperationtypes(opt_head,bank);
     }
     
-    else if (menu_selector==2)
+    if (menu_selector==2)
     {
-        struct branch *branch_head;
-        struct bank bank;
-        readbranches(branch_head,bank);
+        
+        branch_head= readbranches(branch);
+        printBranches(branch_head);
     }
-    else if(menu_selector==3){
-       // readcustomers();
+    if(menu_selector==3){
+    
+    }
+    
+    break;
     }
     
     }
-}
