@@ -172,9 +172,9 @@ int main(){
     printf("5) calculate paid commission amount of each customers in each branches \n");
 
     printf("\n option  :  ");
-    int menu_selector=2;
+    int menu_selector;
     
-    //scanf("%d",&menu_selector);
+    scanf("%d",&menu_selector);
     printf("\n");
 
     if (menu_selector==1)
